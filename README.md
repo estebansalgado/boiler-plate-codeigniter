@@ -1,7 +1,6 @@
 # boliler-plate basado en cxpcms
 
-A single-page application admin example use codeigniter,adminlte and sammyjs 
-single page aplication usando codeigniter,adminlte y sammmyjs 
+Una Single page aplication usando codeigniter,adminlte y sammmyjs 
 basando en el proyecto de
 chaegumi:https://github.com/chaegumi/cxpcms
 
