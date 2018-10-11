@@ -12,6 +12,8 @@ user_guide_src/cilexer/build/*
 user_guide_src/cilexer/dist/*
 user_guide_src/cilexer/pycilexer.egg-info/*
  application/common/ci_session/*
+application/common/cache/*
+
 #codeigniter 3
 application/logs/*
 !application/logs/index.html
