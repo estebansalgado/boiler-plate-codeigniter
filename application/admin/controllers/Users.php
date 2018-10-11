@@ -33,22 +33,22 @@ class Users extends MY_Controller {
 		if($search) $keyword = $search['value'];
 		// $this->session->set_userdata('search', $search);
 		// $perpage = 10;
-		$this->db->select('count(A.id) as ccount', FALSE);
-		$this->db->from('users A');
+		$this->db->select('count(a.id) as ccount', FALSE);
+		$this->db->from('users a');
 		if($keyword){
-			$this->db->where('(A.username=' . $this->db->escape($keyword) . ' or A.email=' . $this->db->escape($keyword) . ')');
+			$this->db->where('(a.username=' . $this->db->escape($keyword) . ' or a.email=' . $this->db->escape($keyword) . ')');
 		}
 		$q = $this->db->get()->row();
 		$response->recordsTotal = $q->ccount;
 		
 		// $offset = $response->draw * $perpage;
 		
-		$this->db->select('A.*');
-		$this->db->from('users A');
+		$this->db->select('a.*');
+		$this->db->from('users a');
 		if($keyword){
-			$this->db->where('(A.username=' . $this->db->escape($keyword) . ' or A.email=' . $this->db->escape($keyword) . ')');
+			$this->db->where('(a.username=' . $this->db->escape($keyword) . ' or a.email=' . $this->db->escape($keyword) . ')');
 		}		
-		$this->db->order_by('A.id', 'desc');
+		$this->db->order_by('a.id', 'desc');
 		$this->db->limit($this->input->post('length'), $this->input->post('start'));
 		$results = $this->db->get()->result();
 		
@@ -91,6 +91,12 @@ class Users extends MY_Controller {
 		$userRoles = $member_acl1->getUserRoles();
 		$this->template_data['userRoles'] = $userRoles;
 		$this->load->view('users_edit', $this->template_data);
+	}
+	function prueba(){
+		$member_acl1 = new Member_acl(3);
+		$userRoles = $member_acl1->getUserRoles();
+		echo $userRoles;
+		echo $this->db->last_query();
 	}
 	
 

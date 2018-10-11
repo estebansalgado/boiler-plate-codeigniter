@@ -101,7 +101,7 @@
 					$roles = roles_list();
 					foreach($roles as $role){
 						?>
-						<option value="<?php echo $role->id;?>" <?php echo in_array($role->id, $userRoles) ? 'selected="selected"' : '';?>><?php echo $role->roleName;?></option>
+						<option value="<?php echo $role->id;?>" <?php echo in_array($role->id, $userRoles) ? 'selected="selected"' : '';?>><?php echo $role->rolename;?></option>
 						<?php 
 					}
 					?>

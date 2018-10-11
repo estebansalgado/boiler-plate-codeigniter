@@ -27,18 +27,18 @@ class Roles extends MY_Controller {
 		// $search = $this->input->post('search');
 		// $this->session->set_userdata('search', $search);
 		// $perpage = 10;
-		$this->db->select('count(A.id) as ccount', FALSE);
-		$this->db->from('roles A');
+		$this->db->select('count(a.id) as ccount', FALSE);
+		$this->db->from('roles a');
 		$q = $this->db->get()->row();
 		$response->recordsTotal = $q->ccount;
 		
 		// $offset = $response->draw * $perpage;
 		
-		$this->db->select('A.*');
-		$this->db->from('roles A');
+		$this->db->select('a.*');
+		$this->db->from('roles a');
 		// if($search['value']){
 		// }		
-		$this->db->order_by('A.id', 'desc');
+		$this->db->order_by('a.id', 'desc');
 		$this->db->limit($this->input->post('length'), $this->input->post('start'));
 		$results = $this->db->get()->result();
 		
@@ -48,7 +48,7 @@ class Roles extends MY_Controller {
 		foreach($results as $row){
 			$data = array();
 			$data['id'] = $row->id;
-			$data['roleName'] = $row->roleName;
+			$data['roleName'] = $row->rolename;
 			$data['issys'] = $row->issys;
 			
 			$response->data[] = $data;

@@ -11,9 +11,9 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 	class Member_acl
 	{
-		var $perms = array();		//Array : Stores the permissions for the user
-		var $userID = 0;			//Integer : Stores the ID of the current user
-		var $userRoles = array();	//Array : Stores the roles of the current user
+		var $perms = array();		//Array : Stores the permissions for the user => guarda los permisos de usuario
+		var $userID = 0;			//Integer : Stores the ID of the current user =>guarda el id del usuario actual 
+		var $userRoles = array();	//Array : Stores the roles of the current user =>gurada los roles del usuario actual
 		private $allPerms = array();
 		
 		private $CI;
@@ -103,11 +103,11 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 			$userid = floatval($this->userID);
 			if($userid){
 				if(!$resp = $this->CI->cache->get('user_roles_' . $userid)){
-					$strSQL = "SELECT * FROM `user_roles` WHERE `userID` = " . floatval($this->userID) . " ORDER BY `addDate` ASC";
+					$strSQL = "SELECT * FROM user_roles WHERE userid = " . floatval($this->userID) . " ORDER BY adddate ASC";
 					$data = $this->CI->db->query($strSQL)->result_array();
 					$resp = array();
 					foreach($data as $row){
-						$resp[] = $row['roleID'];
+						$resp[] = $row['roleid'];
 					}
 					$this->CI->cache->save('user_roles_' . $userid, $resp, 3600);
 				}
@@ -121,7 +121,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 		{
 			if(!$resp = $this->CI->cache->get('allroles')){
 				$format = strtolower($format);
-				$strSQL = "SELECT * FROM `roles` ORDER BY `roleName` ASC";
+				$strSQL = "SELECT * FROM roles ORDER BY rolename ASC";
 				$data = $this->CI->db->query($strSQL)->result_array();
 				$resp = array();
 				foreach($data as $row)
@@ -142,14 +142,14 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 		{
 			if(!$resp = $this->CI->cache->get('allperms')){
 				$format = strtolower($format);
-				$strSQL = "SELECT * FROM `permissions` ORDER BY `permName` ASC";
+				$strSQL = "SELECT * FROM permissions ORDER BY permname ASC";
 				$data = $this->CI->db->query($strSQL)->result_array();
 				$resp = array();
 				foreach($data as $row)
 				{
 					if ($format == 'full')
 					{
-						$resp[$row['id']] = array('id' => $row['id'], 'Name' => $row['permName'], 'Key' => $row['permKey']);
+						$resp[$row['id']] = array('id' => $row['id'], 'Name' => $row['permname'], 'Key' => $row['permkey']);
 					} else {
 						$resp[] = $row['id'];
 					}
@@ -163,15 +163,15 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 		{	
 			if (is_array($role))
 			{
-				$roleSQL = "SELECT * FROM `role_perms` WHERE `roleID` IN (" . implode(",",$role) . ") ORDER BY `ID` ASC";
+				$roleSQL = "SELECT * FROM role_perms WHERE roleid IN (" . implode(",",$role) . ") ORDER BY id ASC";
 			} else {
-				$roleSQL = "SELECT * FROM `role_perms` WHERE `roleID` = " . floatval($role) . " ORDER BY `ID` ASC";
+				$roleSQL = "SELECT * FROM role_perms WHERE roleid = " . floatval($role) . " ORDER BY id ASC";
 			}
 			$data = $this->CI->db->query($roleSQL)->result_array();
 			$perms = array();
 			foreach($data as $row)
 			{
-				$perminfo = $this->getPermFromID($row['permID']);
+				$perminfo = $this->getPermFromID($row['permid']);
 				$pK = strtolower($perminfo['Key']);
 				if ($pK == '') { continue; }
 				if ($row['value'] === '1') {
@@ -179,7 +179,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 				} else {
 					$hP = false;
 				}
-				$perms[$pK] = array('perm' => $pK,'inheritted' => true,'value' => $hP,'Name' => $perminfo['Name'],'id' => $row['permID']);
+				$perms[$pK] = array('perm' => $pK,'inheritted' => true,'value' => $hP,'Name' => $perminfo['Name'],'id' => $row['permid']);
 			}
 			return $perms;
 		}
@@ -188,12 +188,12 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 		{
 			if($userID){
 				if(!$perms = $this->CI->cache->get('userperms_' . $userID)){
-					$strSQL = "SELECT * FROM `user_perms` WHERE `userID` = " . floatval($userID) . " ORDER BY `addDate` ASC";
+					$strSQL = "SELECT * FROM user_perms WHERE userid = " . floatval($userID) . " ORDER BY adddate ASC";
 					$data = $this->CI->db->query($strSQL)->result_array();
 					$perms = array();
 					foreach($data as $row)
 					{
-						$perminfo = $this->getPermFromID($row['permID']);
+						$perminfo = $this->getPermFromID($row['permid']);
 						$pK = strtolower($perminfo['Key']);
 						if ($pK == '') { continue; }
 						if ($row['value'] == '1') {
@@ -201,7 +201,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 						} else {
 							$hP = false;
 						}
-						$perms[$pK] = array('perm' => $pK,'inheritted' => false,'value' => $hP,'Name' => $perminfo['Name'],'id' => $row['permID']);
+						$perms[$pK] = array('perm' => $pK,'inheritted' => false,'value' => $hP,'Name' => $perminfo['Name'],'id' => $row['permid']);
 					}
 					$this->CI->cache->save('userperms_' . $userID, $perms, 3600);
 				}
@@ -256,7 +256,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 		
 		function getUsername($userID)
 		{
-			$strSQL = "SELECT `username` FROM `users` WHERE `ID` = " . floatval($userID) . " LIMIT 1";
+			$strSQL = "SELECT username FROM users WHERE id = " . floatval($userID) . " LIMIT 1";
 			$row = $this->CI->db->query($strSQL)->row_array();
 			return $row[0];
 		}

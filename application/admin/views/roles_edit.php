@@ -9,7 +9,7 @@ ul.ztree {margin-top: 10px;overflow-y:none;overflow-x:auto;}
 			if(isset($info) && count($info) > 0){
 				$header = 'Edit Role';
 				$id = $info->id;
-				$roleName = $info->roleName;
+				$roleName = $info->rolename;
 				$action = 'edit';
 			}else{
 				$header = 'Add Role';
