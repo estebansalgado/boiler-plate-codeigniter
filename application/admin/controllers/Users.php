@@ -122,7 +122,7 @@ class Users extends MY_Controller {
 				// set user roles
 				$rolesarr = $this->input->post('roles');
 				if($rolesarr){
-					$sql = 'insert into user_roles(userID, roleID) values';
+					$sql = 'insert into user_roles(userid, roleid) values';
 					$tstr = '';
 					foreach($rolesarr as $v){
 						$tstr .= '(' . $new_user_id . ', ' . $v . '),';
@@ -148,9 +148,9 @@ class Users extends MY_Controller {
 				$rolesarr = $this->input->post('roles');
 				if($rolesarr){
 					// Delete Old User Roles
-					$this->db->where('userID', $id);
+					$this->db->where('userid', $id);
 					$this->db->delete('user_roles');
-					$sql = 'insert into user_roles(userID, roleID) values';
+					$sql = 'insert into user_roles(userid, roleid) values';
 					$tstr = '';
 					foreach($rolesarr as $v){
 						$tstr .= '(' . $id . ', ' . $v . '),';
@@ -174,11 +174,11 @@ class Users extends MY_Controller {
 		$this->db->trans_begin();
 		
 		// delete user perms
-		$this->db->where('userID', $id);
+		$this->db->where('userid', $id);
 		$this->db->delete('user_perms');
 		
 		// delete user roles
-		$this->db->where('userID', $id);
+		$this->db->where('userid', $id);
 		$this->db->delete('user_roles');
 
 		
@@ -224,10 +224,17 @@ class Users extends MY_Controller {
 					$permID = str_replace("perm_","",$k);
 					if ($v == 'x')
 					{
-						$strSQL = "DELETE FROM `user_perms` WHERE `userID` = ? AND `permID` = ?";
+						$strSQL = "DELETE FROM user_perms WHERE userid = ? AND permid = ?";
 						$this->db->query($strSQL,array($_POST['user_id'],floatval($permID)));
 					} else {
-						$strSQL = "REPLACE INTO `user_perms` SET `userID` = ?, `permID` = ?, `value` = ?";
+						//$strSQL = "REPLACE INTO `user_perms` SET `userID` = ?, `permID` = ?, `value` = ?";
+
+						$strSQL = "INSERT INTO user_perms (userid, permid, value) 
+						VALUES (?, ?, ?)
+						ON CONFLICT (id) DO UPDATE 
+						  SET userid = excluded.userid, 
+						  permid = excluded.permid,
+						  value = excluded.value;";
 						$this->db->query($strSQL,array($_POST['user_id'],floatval($permID),$v));
 						
 					}
@@ -267,7 +274,7 @@ class Users extends MY_Controller {
 		if(isset($perm_parr[$parent_id]) && count($perm_parr[$parent_id])>0){
 		  
 			  foreach($perm_parr[$parent_id] as $row){
-				$permKey = $row->permKey;
+				$permKey = $row->permkey;
 				$selhtml = '';
 				$selhtml .= "<select name=\"perm_" . $row->id . "\">";
 				$selhtml .= "<option value=\"1\"";
@@ -297,11 +304,11 @@ class Users extends MY_Controller {
                 $selhtml .= "</select>";
 				  
 				  if(isset($perm_parr[$row->id]) && count($perm_parr[$row->id])>0){
-					$html .= "{id:" . $row->id . ",name:'" . $row->permName . "', select:'" . $selhtml . "', children:[";
+					$html .= "{id:" . $row->id . ",name:'" . $row->permname . "', select:'" . $selhtml . "', children:[";
 					$html = $this->loop_parent($perm_parr, $row->id, $curloop + 1, $curid, $html, $rPerms) . ']},';
 					
 				  }else{
-					  $html .= "{id:" . $row->id . ",name:'" . $row->permName . "', select:'" . $selhtml . "'},";
+					  $html .= "{id:" . $row->id . ",name:'" . $row->permname . "', select:'" . $selhtml . "'},";
 				  }
 			  }								  
 		}else{
