@@ -85,7 +85,7 @@ ul.ztree {margin-top: 10px;overflow-y:none;overflow-x:auto;}
 		function beforeRemove(treeId, treeNode){
 			var zTree = $.fn.zTree.getZTreeObj(treeId);
 			zTree.selectNode(treeNode);
-			return confirm('确认删除 节点 -- ' + treeNode.name + "吗？");
+			return confirm('Esta Seguro que Desea eliminar el Nodo -- ' + treeNode.name + "？");
 		}
 		
 		function onRemove(event, treeId, treeNode){
@@ -122,7 +122,7 @@ ul.ztree {margin-top: 10px;overflow-y:none;overflow-x:auto;}
 		function addHoverDom(treeId, treeNode){
 			var sObj = $('#' + treeNode.tId + '_span');
 			if(treeNode.editNameFlag || $('#addBtn_' + treeNode.tId).length>0) return;
-			var addStr = '<span class="button add" id="addBtn_' + treeNode.tId + '" title="添加权限" onfocus="this.blur();"></span>';
+			var addStr = '<span class="button add" id="addBtn_' + treeNode.tId + '" title="Agregar permisos" onfocus="this.blur();"></span>';
 			sObj.after(addStr);
 			var btn = $('#addBtn_' + treeNode.tId);
 			if(btn){

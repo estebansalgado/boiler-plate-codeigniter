@@ -3,8 +3,8 @@
 			$action = 'edit';
 			$header = 'Edit Permission';
 			$parent_id = $info->parent_id;
-			$permKey = $info->permKey;
-			$permName = $info->permName;
+			$permKey = $info->permkey;
+			$permName = $info->permname;
 			$id = $info->id;
 		  }else{
 			$action = 'add';
@@ -70,13 +70,13 @@
 							if(isset($perm_parr[$parent_id]) && count($perm_parr[$parent_id])>0){
 							  if($id == ''){
 								  foreach($perm_parr[$parent_id] as $row){
-									echo '<option value="' . $row->id . '" ' . ($row->id == $curid ? 'selected="selected"' : '') . '>' . str_repeat(' - ', $curloop) . $row->permName . '</option>';
+									echo '<option value="' . $row->id . '" ' . ($row->id == $curid ? 'selected="selected"' : '') . '>' . str_repeat(' - ', $curloop) . $row->permname . '</option>';
 									loop_parent($perm_parr, $row->id, $curloop + 1, $curid, $id);
 								  }								  
 							  }else{
 								  foreach($perm_parr[$parent_id] as $row){
 									if($row->id == $id) continue;
-									echo '<option value="' . $row->id . '" ' . ($row->id == $curid ? 'selected="selected"' : '') . '>' . str_repeat(' - ', $curloop) . $row->permName . '</option>';
+									echo '<option value="' . $row->id . '" ' . ($row->id == $curid ? 'selected="selected"' : '') . '>' . str_repeat(' - ', $curloop) . $row->permname . '</option>';
 									loop_parent($perm_parr, $row->id, $curloop + 1, $curid, $id);
 								  }								  
 							  }

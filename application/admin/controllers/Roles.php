@@ -83,16 +83,16 @@ class Roles extends MY_Controller {
 		  
 			  foreach($perm_parr[$parent_id] as $row){
 				  
-				if(isset($rPerms[$row->permKey]['value'])){if ($rPerms[$row->permKey]['value'] === true) { $chk = '1'; }}
-				if(isset($rPerms[$row->permKey]['value'])){if ($rPerms[$row->permKey]['value'] != true) { $chk = '0'; }}
-				if (!array_key_exists($row->permKey,$rPerms)) { $chk = 'x'; }
+				if(isset($rPerms[$row->permkey]['value'])){if ($rPerms[$row->permkey]['value'] === true) { $chk = '1'; }}
+				if(isset($rPerms[$row->permkey]['value'])){if ($rPerms[$row->permkey]['value'] != true) { $chk = '0'; }}
+				if (!array_key_exists($row->permkey,$rPerms)) { $chk = 'x'; }
 				  
 				  if(isset($perm_parr[$row->id]) && count($perm_parr[$row->id])>0){
-					$html .= "{id:" . $row->id . ",name:'" . $row->permName . "', chk:'" . $chk . "', children:[";
+					$html .= "{id:" . $row->id . ",name:'" . $row->permname . "', chk:'" . $chk . "', children:[";
 					$html = $this->loop_parent($perm_parr, $row->id, $curloop + 1, $curid, $html, $rPerms) . ']},';
 					
 				  }else{
-					  $html .= "{id:" . $row->id . ",name:'" . $row->permName . "', chk:'" . $chk . "'},";
+					  $html .= "{id:" . $row->id . ",name:'" . $row->permname . "', chk:'" . $chk . "'},";
 				  }
 			  }								  
 		}else{
@@ -126,7 +126,7 @@ class Roles extends MY_Controller {
 				check_permission('admin-add-role');
 				$this->db->trans_begin();
 				$data = array(
-					'roleName' => trim($this->input->post('roleName')),
+					'rolename' => trim($this->input->post('roleName')),
 					'issys' => 1
 				);
 				$this->db->insert('roles', $data);
@@ -139,7 +139,7 @@ class Roles extends MY_Controller {
 				check_permission('admin-edit-role');
 				$this->db->trans_begin();
 				$data = array(
-					'roleName' => trim($this->input->post('roleName')),
+					'rolename' => trim($this->input->post('roleName')),
 					'issys' => 1
 				);
 				$this->db->where('id', $id);

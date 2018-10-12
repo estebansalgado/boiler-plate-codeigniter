@@ -34,11 +34,11 @@ class Permissions extends MY_Controller {
 	  
 		  foreach($perm_parr[$parent_id] as $row){
 			  if(isset($perm_parr[$row->id]) && count($perm_parr[$row->id])>0){
-				$html .= "{id:" . $row->id . ",name:'" . $row->permName . "', permKey:'" . $row->permKey . "', children:[";
+				$html .= "{id:" . $row->id . ",name:'" . $row->permname . "', permKey:'" . $row->permkey . "', children:[";
 				$html = $this->loop_parent($perm_parr, $row->id, $curloop + 1, $curid, $html) . ']},';
 				
 			  }else{
-				  $html .= "{id:" . $row->id . ",name:'" . $row->permName . "', permKey:'" . $row->permKey . "'},";
+				  $html .= "{id:" . $row->id . ",name:'" . $row->permname . "', permKey:'" . $row->permkey . "'},";
 			  }
 		  }								  
 	}else{

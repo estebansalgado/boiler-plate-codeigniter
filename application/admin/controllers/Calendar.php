@@ -30,15 +30,15 @@ class Calendar extends MY_Controller {
 		}
 		
 		$this->db->where('start>=', $this->db->escape($start), FALSE);
-		$this->db->where('end<=', $this->db->escape($end), FALSE);
+		$this->db->where('_end<=', $this->db->escape($end), FALSE);
 		$this->db->where('user_id', $this->user->id);
 		$results = $this->db->get('events')->result();
 		$events = array();
 		foreach($results as $row){
-			if($row->allDay){
-				$row->allDay = TRUE;
+			if($row->allday){
+				$row->allday = TRUE;
 			}else{
-				$row->allDay = FALSE;
+				$row->allday = FALSE;
 			}
 			$events[] = $row;
 		}
@@ -83,32 +83,32 @@ class Calendar extends MY_Controller {
 					'user_id' => $this->user->id,
 					'title' => trim($this->input->post('title')),
 					'start' => $this->input->post('start'),
-					'end' => $this->input->post('end'),
+					'_end' => $this->input->post('end'),
 					// 'url' => trim($this->input->post('url')),
-					'backgroundColor' => trim($this->input->post('backgroundColor')),
-					'borderColor' => trim($this->input->post('backgroundColor')),
-					'allDay' => $this->input->post('allDay'),
+					'backgroundcolor' => trim($this->input->post('backgroundColor')),
+					'bordercolor' => trim($this->input->post('backgroundColor')),
+					'allday' => $this->input->post('allDay'),
 					'addtime' => $_SERVER['REQUEST_TIME']
 				);
 				$this->db->insert('events', $data);
-				operation_log(array('user_id' => $this->user->id, 'content' => '添加事件：' . $data['title']));
-				json_response(array('success' => TRUE, 'msg' => '添加事件成功'));
+				//operation_log(array('user_id' => $this->user->id, 'content' => 'Añadir un Evento：' . $data['title']));
+				json_response(array('success' => TRUE, 'msg' => 'Evento añadido con exito'));
 			}else{
 				check_permission('admin-edit-event');
 				$data = array(
 					'title' => trim($this->input->post('title')),
 					'start' => $this->input->post('start'),
-					'end' => $this->input->post('end'),
+					'_end' => $this->input->post('end'),
 					// 'url' => trim($this->input->post('url')),
-					'backgroundColor' => trim($this->input->post('backgroundColor')),
-					'borderColor' => trim($this->input->post('backgroundColor')),
-					'allDay' => $this->input->post('allDay')
+					'backgroundcolor' => trim($this->input->post('backgroundColor')),
+					'bordercolor' => trim($this->input->post('backgroundColor')),
+					'allday' => $this->input->post('allDay')
 				);
 				$this->db->where('id', $id);
 				$this->db->where('user_id', $this->user->id);
 				$this->db->update('events', $data);
-				operation_log(array('user_id' => $this->user->id, 'content' => '修改事件：' . $data['title']));
-				json_response(array('success' => TRUE, 'msg' => '修改事件成功'));
+				//operation_log(array('user_id' => $this->user->id, 'content' => 'Modificar el Evento：' . $data['title']));
+				json_response(array('success' => TRUE, 'msg' => 'evento modificado con exito'));
 				
 			}
 		}
@@ -120,8 +120,8 @@ class Calendar extends MY_Controller {
 		$this->db->where('id', $id);
 		$this->db->where('user_id', $this->user->id);
 		$this->db->delete('events');
-		operation_log(array('user_id' => $this->user->id, 'content' => '删除事件：' . $id));
-		json_response(array('success' => TRUE, 'msg' => '删除事件成功'));
+		operation_log(array('user_id' => $this->user->id, 'content' => 'Eliminar el Evento：' . $id));
+		json_response(array('success' => TRUE, 'msg' => 'Evento Eliminado'));
 	}
 	
 }

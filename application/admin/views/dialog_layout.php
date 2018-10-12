@@ -47,9 +47,10 @@
 	<script src="<?php echo base_url();?>resource/adminlte/dist/js/app.min.js"></script>
 	<!-- SlimScroll 1.3.0 -->
 	<script src="<?php echo base_url();?>resource/adminlte/plugins/slimScroll/jquery.slimscroll.min.js"></script>  
+  <script type="text/javascript" src="<?php echo base_url();?>resource/sammy/lib/min/sammy-latest.min.js"></script>
 	
 	<script src="<?php echo base_url();?>resource/js/bootbox.js"></script>
-	<script src="<?php echo base_url();?>resource/server/js/server.js"></script>
+	<script src="<?php echo base_url();?>resource/js/server.js"></script>
 </head>
 <body>
 <?php $this->load->view($main);?>
