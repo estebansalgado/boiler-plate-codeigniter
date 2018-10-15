@@ -128,7 +128,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 				{
 					if ($format == 'full')
 					{
-						$resp[$row['id']] = array("id" => $row['id'],"Name" => $row['roleName']);
+						$resp[$row['id']] = array("id" => $row['id'],"Name" => $row['rolename']);
 					} else {
 						$resp[$row['id']] = $row['id'];
 					}

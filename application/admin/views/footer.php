@@ -3,7 +3,7 @@
         <div class="pull-right hidden-xs">
           <b>Version</b> 2.3.1
         </div>
-        <strong>Copyright &copy; 2015 <a href="http://www.cxpcms.com">Cxpcms</a>.</strong>
+        <strong>Copyright &copy; 2018 <a href="http://www.cxpcms.com">Cxpcms</a>.</strong>
       </footer>
 
   <!-- Control Sidebar -->

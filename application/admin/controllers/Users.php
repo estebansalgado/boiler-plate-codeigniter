@@ -92,14 +92,6 @@ class Users extends MY_Controller {
 		$this->template_data['userRoles'] = $userRoles;
 		$this->load->view('users_edit', $this->template_data);
 	}
-	function prueba(){
-		$member_acl1 = new Member_acl(3);
-		$userRoles = $member_acl1->getUserRoles();
-		echo $userRoles;
-		echo $this->db->last_query();
-	}
-	
-
 	
 	function save(){
 		$id = intval($this->input->post('id'));
@@ -229,12 +221,7 @@ class Users extends MY_Controller {
 					} else {
 						//$strSQL = "REPLACE INTO `user_perms` SET `userID` = ?, `permID` = ?, `value` = ?";
 
-						$strSQL = "INSERT INTO user_perms (userid, permid, value) 
-						VALUES (?, ?, ?)
-						ON CONFLICT (id) DO UPDATE 
-						  SET userid = excluded.userid, 
-						  permid = excluded.permid,
-						  value = excluded.value;";
+						$strSQL = "select replace_into_user_perms(?, ?, ?)";
 						$this->db->query($strSQL,array($_POST['user_id'],floatval($permID),$v));
 						
 					}

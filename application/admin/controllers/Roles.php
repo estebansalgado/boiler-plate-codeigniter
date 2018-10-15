@@ -165,11 +165,12 @@ class Roles extends MY_Controller {
 				$permID = str_replace("perm_","",$k);
 				if ($v == 'x')
 				{
-					$strSQL ="DELETE FROM `role_perms` WHERE `roleId` = ? AND `permId` = ?";
+					$strSQL ="DELETE FROM role_perms WHERE roleid = ? AND permid = ?";
 					$this->db->query($strSQL,array($roleID,$permID));
 					continue;
 				}
-				$strSQL = "REPLACE INTO `role_perms` SET `roleId` = ?, `permId` = ?, `value` = ?";
+				//$strSQL = "REPLACE INTO role_perms SET roleid = ?, permid = ?, value = ?";
+				$strSQL = "select replace_into_role_perms(?,?,?)";
 				$this->db->query($strSQL,array($roleID,$permID,$v));
 			}
 		}	
@@ -180,10 +181,10 @@ class Roles extends MY_Controller {
 		$id = intval($this->input->get('id'));
 		$this->db->trans_begin();
 		
-		$this->db->where('roleID', $id);
+		$this->db->where('roleid', $id);
 		$this->db->delete('role_perms');
 		
-		$this->db->where('roleID', $id);
+		$this->db->where('roleid', $id);
 		$this->db->delete('user_roles');
 		
 		// 
